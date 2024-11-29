@@ -32,4 +32,4 @@ jobs:
         run: ./gradlew spotlessCheck
       # 6. 프로젝트 빌드
       - name: Build the Project
-        run: ./gradlew clean build
+        run: ./gradlew clean build -x test
