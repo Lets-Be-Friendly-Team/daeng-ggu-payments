@@ -19,7 +19,7 @@ spotless {
                 '\\#',
                 '\\#org.junit'
         )
-        googleJavaFormat()
+        googleJavaFormat().aosp()
         formatAnnotations()
         removeUnusedImports()
         trimTrailingWhitespace()
@@ -52,6 +52,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
+
+    // web client 활용을 위한 webflus
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 }
 
 tasks.named('test') {
