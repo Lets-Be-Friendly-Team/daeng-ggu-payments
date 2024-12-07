@@ -5,20 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
-public class PaymentResponseDto {
+public class PaymentCancelResponseDto {
     private String paymentKey;
     private String orderId;
     private String status;
-    private BigDecimal totalAmount;
-    private String approvedAt;
-    private String receiptUrl;
-    private String method;
-    private String failure;
+
+    private BigDecimal cancelAmount;
+    private String cancelReason;
+    private String canceledAt;
+    private String transactionKey;
+    private String receiptKey;
+    private String cancelStatus;
+    private String cancelRequestId;
 }
