@@ -1,5 +1,7 @@
 package com.ureca.daengggupayments.controller;
 
+import com.ureca.daengggupayments.dto.PaymentCancelRequestDto;
+import com.ureca.daengggupayments.dto.PaymentCancelResponseDto;
 import com.ureca.daengggupayments.dto.PaymentRequestDto;
 import com.ureca.daengggupayments.dto.PaymentResponseDto;
 import com.ureca.daengggupayments.service.TossPaymentService;
@@ -24,5 +26,12 @@ public class PaymentController {
                         paymentRequestDto.getOrderId(),
                         paymentRequestDto.getAmount())
                 .block();
+    }
+
+    @PostMapping("/cancel")
+    public PaymentCancelResponseDto cancelPayment(
+            @RequestBody PaymentCancelRequestDto paymentCancelRequestDto) {
+        return tossPaymentService.cancelPayment(
+                paymentCancelRequestDto.getPaymentKey(), paymentCancelRequestDto.getCancelReason());
     }
 }

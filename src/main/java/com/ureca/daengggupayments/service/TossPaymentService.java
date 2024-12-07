@@ -1,5 +1,6 @@
 package com.ureca.daengggupayments.service;
 
+import com.ureca.daengggupayments.dto.PaymentCancelResponseDto;
 import com.ureca.daengggupayments.dto.PaymentRequestDto;
 import com.ureca.daengggupayments.dto.PaymentResponseDto;
 import java.math.BigDecimal;
@@ -64,5 +65,25 @@ public class TossPaymentService {
                 .orderId(orderId)
                 .amount(amount)
                 .build();
+    }
+
+    public PaymentCancelResponseDto cancelPayment(String paymentKey, String cancelReason) {
+        String uri = String.format("/v1/payments/%s/cancel", paymentKey);
+
+        return tossPaymentsWebClient
+                .post()
+                .uri(uri)
+                .bodyValue(cancelReason)
+                .retrieve()
+                .bodyToMono(PaymentCancelResponseDto.class)
+                .doOnError(
+                        WebClientResponseException.class,
+                        ex -> {
+                            log.error(
+                                    "Error occurred during payment cancellation. Status: {}, Body: {}",
+                                    ex.getStatusCode(),
+                                    ex.getResponseBodyAsString());
+                        })
+                .block();
     }
 }
