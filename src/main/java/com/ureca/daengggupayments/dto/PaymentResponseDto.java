@@ -2,6 +2,8 @@ package com.ureca.daengggupayments.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +20,7 @@ public class PaymentResponseDto {
     private String orderId;
     private String status;
     private BigDecimal totalAmount;
-    private LocalDateTime approvedAt;
+    private String approvedAt;
     private String receiptUrl;
     private String method;
     private String failure;
