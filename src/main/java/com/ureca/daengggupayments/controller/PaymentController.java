@@ -21,9 +21,9 @@ public class PaymentController {
     @PostMapping("/confirm")
     public PaymentResponseDto confirmPayment(@RequestBody PaymentRequestDto paymentRequestDto) {
         return tossPaymentService.confirmPayment(
-            paymentRequestDto.getPaymentKey(),
-            paymentRequestDto.getOrderId(),
-            paymentRequestDto.getAmount());
+                paymentRequestDto.getPaymentKey(),
+                paymentRequestDto.getOrderId(),
+                paymentRequestDto.getAmount());
     }
 
     @PostMapping("/cancel")

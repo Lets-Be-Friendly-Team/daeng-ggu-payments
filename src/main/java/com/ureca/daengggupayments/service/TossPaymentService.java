@@ -4,14 +4,11 @@ import com.ureca.daengggupayments.dto.PaymentCancelResponseDto;
 import com.ureca.daengggupayments.dto.PaymentRequestDto;
 import com.ureca.daengggupayments.dto.PaymentResponseDto;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
@@ -22,20 +19,20 @@ public class TossPaymentService {
 
     public PaymentResponseDto confirmPayment(String paymentKey, String orderId, BigDecimal amount) {
         return tossPaymentsWebClient
-            .post()
-            .uri("/v1/payments/confirm")
-            .bodyValue(buildPaymentRequest(paymentKey, orderId, amount))
-            .retrieve()
-            .bodyToMono(PaymentResponseDto.class)
-            .doOnError(
-                WebClientResponseException.class,
-                ex -> {
-                    log.error(
-                        "Error occurred while confirming payment. Status: {}, Body: {}",
-                        ex.getStatusCode(),
-                        ex.getResponseBodyAsString());
-                })
-            .block();
+                .post()
+                .uri("/v1/payments/confirm")
+                .bodyValue(buildPaymentRequest(paymentKey, orderId, amount))
+                .retrieve()
+                .bodyToMono(PaymentResponseDto.class)
+                .doOnError(
+                        WebClientResponseException.class,
+                        ex -> {
+                            log.error(
+                                    "Error occurred while confirming payment. Status: {}, Body: {}",
+                                    ex.getStatusCode(),
+                                    ex.getResponseBodyAsString());
+                        })
+                .block();
     }
 
     private PaymentRequestDto buildPaymentRequest(
