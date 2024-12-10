@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/v1/toss")
+@RequestMapping("api/v1")
 @RequiredArgsConstructor
 public class PaymentController {
 
     private final TossPaymentService tossPaymentService;
 
-    @PostMapping("/confirm")
+    @PostMapping("/toss/confirm")
     public PaymentResponseDto confirmPayment(@RequestBody PaymentRequestDto paymentRequestDto) {
         return tossPaymentService.confirmPayment(
                 paymentRequestDto.getPaymentKey(),
@@ -26,7 +26,7 @@ public class PaymentController {
                 paymentRequestDto.getAmount());
     }
 
-    @PostMapping("/cancel")
+    @PostMapping("/toss/cancel")
     public PaymentCancelResponseDto cancelPayment(
             @RequestBody PaymentCancelRequestDto paymentCancelRequestDto) {
         return tossPaymentService.cancelPayment(
