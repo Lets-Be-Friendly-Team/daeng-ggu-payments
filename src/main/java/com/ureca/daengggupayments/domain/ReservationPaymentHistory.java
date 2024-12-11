@@ -3,6 +3,8 @@ package com.ureca.daengggupayments.domain;
 import com.ureca.daengggupayments.config.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,8 +33,10 @@ public class ReservationPaymentHistory extends BaseEntity {
     @JoinColumn(name = "payment_id", nullable = false)
     private ReservationPayment reservationPayment;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;
+    private PaymentStatus status;
 
-    private String message;
+    @Column(length = 2000)
+    private String errorLog;
 }

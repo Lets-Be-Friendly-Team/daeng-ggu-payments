@@ -7,7 +7,6 @@ import com.ureca.daengggupayments.dto.PaymentRequestDto;
 import com.ureca.daengggupayments.dto.PaymentResponseDto;
 import com.ureca.daengggupayments.service.TossPaymentService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,7 +42,8 @@ public class PaymentController {
      * @return 저장 성공 메시지
      */
     @PostMapping("/orders")
-    public ResponseEntity<String> saveOrderInfos(@RequestBody OrderKeysAndAmountDto orderKeysAndAmountDto) {
+    public ResponseEntity<String> saveOrderInfos(
+            @RequestBody OrderKeysAndAmountDto orderKeysAndAmountDto) {
         tossPaymentService.saveOrderInfo(orderKeysAndAmountDto);
         return ResponseEntity.ok("Order information saved successfully.");
     }

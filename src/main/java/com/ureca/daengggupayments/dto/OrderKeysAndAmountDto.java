@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class OrderKeysAndAmountDto {
-	private String customerKey;
-	private String orderId;
-	private BigDecimal amount;
+    private String customerKey;
+    private String orderId;
+    private BigDecimal amount;
 }

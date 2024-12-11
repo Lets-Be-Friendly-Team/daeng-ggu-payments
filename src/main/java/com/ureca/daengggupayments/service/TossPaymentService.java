@@ -1,12 +1,14 @@
 package com.ureca.daengggupayments.service;
 
+import com.ureca.daengggupayments.domain.PaymentStatus;
 import com.ureca.daengggupayments.domain.ReservationPayment;
+import com.ureca.daengggupayments.domain.ReservationPaymentHistory;
 import com.ureca.daengggupayments.dto.OrderKeysAndAmountDto;
 import com.ureca.daengggupayments.dto.PaymentCancelResponseDto;
 import com.ureca.daengggupayments.dto.PaymentRequestDto;
 import com.ureca.daengggupayments.dto.PaymentResponseDto;
+import com.ureca.daengggupayments.repository.ReservationPaymentHistoryRepository;
 import com.ureca.daengggupayments.repository.ReservationPaymentRepository;
-
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ public class TossPaymentService {
 
     private final WebClient tossPaymentsWebClient;
     private final ReservationPaymentRepository reservationPaymentRepository;
+    private final ReservationPaymentHistoryRepository reservationPaymentHistoryRepository;
 
     public PaymentResponseDto confirmPayment(String paymentKey, String orderId, BigDecimal amount) {
         return tossPaymentsWebClient
@@ -70,12 +73,39 @@ public class TossPaymentService {
     }
 
     public void saveOrderInfo(OrderKeysAndAmountDto orderKeysAndAmountDto) {
-        ReservationPayment reservationPayment = ReservationPayment.builder()
-            .customerKey(orderKeysAndAmountDto.getCustomerKey())
-            .orderId(orderKeysAndAmountDto.getOrderId())
-            .amount(orderKeysAndAmountDto.getAmount())
-            .build();
+        ReservationPayment reservationPayment = null;
 
-        reservationPaymentRepository.save(reservationPayment);
+        try {
+            reservationPayment =
+                    ReservationPayment.builder()
+                            .customerKey(orderKeysAndAmountDto.getCustomerKey())
+                            .orderId(orderKeysAndAmountDto.getOrderId())
+                            .amount(orderKeysAndAmountDto.getAmount())
+                            .build();
+
+            reservationPayment = reservationPaymentRepository.save(reservationPayment);
+
+            ReservationPaymentHistory paymentHistory =
+                    ReservationPaymentHistory.builder()
+                            .reservationPayment(reservationPayment)
+                            .status(PaymentStatus.READY) // READY 상태로 저장
+                            .build();
+
+            reservationPaymentHistoryRepository.save(paymentHistory);
+
+        } catch (Exception e) {
+            // 에러 발생 시 ReservationPaymentHistory 저장
+            if (reservationPayment != null) {
+                ReservationPaymentHistory errorHistory =
+                        ReservationPaymentHistory.builder()
+                                .reservationPayment(reservationPayment)
+                                .status(PaymentStatus.ERROR)
+                                .errorLog(e.getMessage())
+                                .build();
+
+                reservationPaymentHistoryRepository.save(errorHistory);
+            }
+            throw e;
+        }
     }
 }
