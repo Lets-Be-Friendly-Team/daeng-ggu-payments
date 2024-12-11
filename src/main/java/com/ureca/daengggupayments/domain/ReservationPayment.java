@@ -40,4 +40,17 @@ public class ReservationPayment extends BaseEntity {
     private String paymentMethod;
 
     private LocalDateTime approvedAt;
+
+    private LocalDateTime canceledAt;
+
+    public void updatePaymentInfo(
+            String paymentKey, String paymentMethod, LocalDateTime approvedAt) {
+        this.paymentKey = paymentKey;
+        this.paymentMethod = paymentMethod;
+        this.approvedAt = approvedAt;
+    }
+
+    public void cancelPayment(LocalDateTime canceledAt) {
+        this.canceledAt = canceledAt;
+    }
 }

@@ -39,4 +39,6 @@ public class ReservationPaymentHistory extends BaseEntity {
 
     @Column(length = 2000)
     private String errorLog;
+
+    @Column private String cancelReason;
 }
