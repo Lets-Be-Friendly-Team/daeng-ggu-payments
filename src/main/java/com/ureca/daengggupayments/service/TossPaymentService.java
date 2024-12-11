@@ -1,8 +1,12 @@
 package com.ureca.daengggupayments.service;
 
+import com.ureca.daengggupayments.domain.ReservationPayment;
+import com.ureca.daengggupayments.dto.OrderKeysAndAmountDto;
 import com.ureca.daengggupayments.dto.PaymentCancelResponseDto;
 import com.ureca.daengggupayments.dto.PaymentRequestDto;
 import com.ureca.daengggupayments.dto.PaymentResponseDto;
+import com.ureca.daengggupayments.repository.ReservationPaymentRepository;
+
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +20,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 public class TossPaymentService {
 
     private final WebClient tossPaymentsWebClient;
+    private final ReservationPaymentRepository reservationPaymentRepository;
 
     public PaymentResponseDto confirmPayment(String paymentKey, String orderId, BigDecimal amount) {
         return tossPaymentsWebClient
@@ -62,5 +67,15 @@ public class TossPaymentService {
                                     ex.getResponseBodyAsString());
                         })
                 .block();
+    }
+
+    public void saveOrderInfo(OrderKeysAndAmountDto orderKeysAndAmountDto) {
+        ReservationPayment reservationPayment = ReservationPayment.builder()
+            .customerKey(orderKeysAndAmountDto.getCustomerKey())
+            .orderId(orderKeysAndAmountDto.getOrderId())
+            .amount(orderKeysAndAmountDto.getAmount())
+            .build();
+
+        reservationPaymentRepository.save(reservationPayment);
     }
 }

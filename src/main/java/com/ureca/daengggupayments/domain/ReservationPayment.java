@@ -35,7 +35,6 @@ public class ReservationPayment extends BaseEntity {
     @Column(nullable = false)
     private BigDecimal amount;
 
-    @Column(nullable = false)
     private String paymentKey;
 
     private String paymentMethod;
