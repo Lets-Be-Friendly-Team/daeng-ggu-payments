@@ -131,15 +131,17 @@ public class TossPaymentService {
                 .build();
     }
 
-    public PaymentCancelResponseDto cancelPayment(String paymentKey, String cancelReason) {
+    public PaymentCancelResponseDto cancelPayment(String orderId, String cancelReason) {
         ReservationPayment reservationPayment = null;
 
         try {
             // 데이터베이스에서 paymentKey로 결제 데이터 조회
             reservationPayment =
                     reservationPaymentRepository
-                            .findByPaymentKey(paymentKey)
+                            .findByOrderId(orderId)
                             .orElseThrow(() -> new ApiException(ErrorCode.PAYMENT_DATA_NOT_FOUND));
+
+            String paymentKey = reservationPayment.getPaymentKey();
 
             // 결제 취소 요청 및 응답 처리
             String uri = String.format("/v1/payments/%s/cancel", paymentKey);
