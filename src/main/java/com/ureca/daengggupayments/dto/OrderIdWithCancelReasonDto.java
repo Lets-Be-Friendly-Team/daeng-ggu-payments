@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class OrderIdWithCancelReasonDto {
-	private String orderId;
-	private String cancelReason;
+    private String orderId;
+    private String cancelReason;
 }
