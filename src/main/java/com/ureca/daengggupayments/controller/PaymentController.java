@@ -1,5 +1,6 @@
 package com.ureca.daengggupayments.controller;
 
+import com.ureca.daengggupayments.dto.OrderIdWithCancelReasonDto;
 import com.ureca.daengggupayments.dto.OrderKeysAndAmountDto;
 import com.ureca.daengggupayments.dto.PaymentCancelRequestDto;
 import com.ureca.daengggupayments.dto.PaymentCancelResponseDto;
@@ -30,9 +31,9 @@ public class PaymentController {
 
     @PostMapping("/toss/cancel")
     public PaymentCancelResponseDto cancelPayment(
-            @RequestBody PaymentCancelRequestDto paymentCancelRequestDto) {
+            @RequestBody OrderIdWithCancelReasonDto orderIdWithCancelReasonDto) {
         return tossPaymentService.cancelPayment(
-                paymentCancelRequestDto.getPaymentKey(), paymentCancelRequestDto.getCancelReason());
+            orderIdWithCancelReasonDto.getOrderId(), orderIdWithCancelReasonDto.getCancelReason());
     }
 
     /**
