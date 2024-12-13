@@ -43,6 +43,6 @@ jobs:
         run: |
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
           echo "docker 로그인 성공"
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/ggumi .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/daeng-ggu-payment .
           echo "docker 빌드 성공"
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/ggumi
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/daeng-ggu-payment
