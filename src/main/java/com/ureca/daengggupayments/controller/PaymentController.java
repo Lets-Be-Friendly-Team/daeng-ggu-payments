@@ -61,4 +61,13 @@ public class PaymentController {
         tossPaymentService.saveOrderInfo(orderKeysAndAmountDto);
         return ResponseEntity.ok("주문 정보가 성공적으로 저장되었습니다.");
     }
+
+    @PostMapping("designer/toss/confirm")
+    public PaymentResponseDto designerConfirmPayment(
+            @RequestBody PaymentRequestDto paymentRequestDto) {
+        return tossPaymentService.designerConfirmPayment(
+                paymentRequestDto.getPaymentKey(),
+                paymentRequestDto.getOrderId(),
+                paymentRequestDto.getAmount());
+    }
 }

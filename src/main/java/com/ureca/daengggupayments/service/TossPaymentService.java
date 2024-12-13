@@ -245,4 +245,27 @@ public class TossPaymentService {
             throw new ApiException(ErrorCode.ORDER_DATA_PROCESSING_ERROR);
         }
     }
+
+    public PaymentResponseDto designerConfirmPayment(
+            String paymentKey, String orderId, BigDecimal amount) {
+        try {
+            PaymentResponseDto paymentResponse =
+                    tossPaymentsWebClient
+                            .post()
+                            .uri("/v1/payments/confirm")
+                            .bodyValue(buildPaymentRequest(paymentKey, orderId, amount))
+                            .retrieve()
+                            .bodyToMono(PaymentResponseDto.class)
+                            .block();
+            return paymentResponse;
+        } catch (WebClientResponseException ex) {
+            // HTTP 에러 응답 처리
+            PaymentErrorResponse errorResponse = parseErrorResponse(ex.getResponseBodyAsString());
+            throw new ApiException(ErrorCode.PAYMENT_API_ERROR);
+
+        } catch (Exception e) {
+            // 기타 예외 처리
+            throw new ApiException(ErrorCode.PAYMENT_PROCESS_FAILED);
+        }
+    }
 }
