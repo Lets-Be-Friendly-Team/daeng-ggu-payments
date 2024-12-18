@@ -5,6 +5,7 @@ import com.ureca.daengggupayments.dto.OrderKeysAndAmountDto;
 import com.ureca.daengggupayments.dto.PaymentCancelResponseDto;
 import com.ureca.daengggupayments.dto.PaymentRequestDto;
 import com.ureca.daengggupayments.dto.PaymentResponseDto;
+import com.ureca.daengggupayments.dto.ReturnToServiceResponse;
 import com.ureca.daengggupayments.service.TossPaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class PaymentController {
      * @return 결제 승인 결과를 담고 있는 {@link PaymentResponseDto}.
      */
     @PostMapping("/toss/confirm")
-    public PaymentResponseDto confirmPayment(@RequestBody PaymentRequestDto paymentRequestDto) {
+    public ReturnToServiceResponse confirmPayment(@RequestBody PaymentRequestDto paymentRequestDto) {
         return tossPaymentService.confirmPayment(
                 paymentRequestDto.getPaymentKey(),
                 paymentRequestDto.getOrderId(),
