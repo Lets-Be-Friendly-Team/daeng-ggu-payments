@@ -29,7 +29,8 @@ public class PaymentController {
      * @return 결제 승인 결과를 담고 있는 {@link PaymentResponseDto}.
      */
     @PostMapping("/toss/confirm")
-    public ReturnToServiceResponse confirmPayment(@RequestBody PaymentRequestDto paymentRequestDto) {
+    public ReturnToServiceResponse confirmPayment(
+            @RequestBody PaymentRequestDto paymentRequestDto) {
         return tossPaymentService.confirmPayment(
                 paymentRequestDto.getPaymentKey(),
                 paymentRequestDto.getOrderId(),

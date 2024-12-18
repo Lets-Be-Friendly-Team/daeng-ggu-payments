@@ -33,7 +33,8 @@ public class TossPaymentService {
     private final ReservationPaymentRepository reservationPaymentRepository;
     private final ReservationPaymentHistoryRepository reservationPaymentHistoryRepository;
 
-    public ReturnToServiceResponse confirmPayment(String paymentKey, String orderId, BigDecimal amount) {
+    public ReturnToServiceResponse confirmPayment(
+            String paymentKey, String orderId, BigDecimal amount) {
         ReservationPayment reservationPayment = null;
 
         try {
@@ -74,15 +75,15 @@ public class TossPaymentService {
 
             // ReturnToServiceResponse 객체로 변환 후 반환
             return ReturnToServiceResponse.builder()
-                .paymentKey(paymentResponse.getPaymentKey())
-                .orderId(paymentResponse.getOrderId())
-                .status(paymentResponse.getStatus())
-                .totalAmount(paymentResponse.getTotalAmount())
-                .approvedAt(DateTimeUtil.parseToLocalDateTime(paymentResponse.getApprovedAt()))
-                .receiptUrl(paymentResponse.getReceiptUrl())
-                .method(paymentResponse.getMethod())
-                .failure(paymentResponse.getFailure())
-                .build();
+                    .paymentKey(paymentResponse.getPaymentKey())
+                    .orderId(paymentResponse.getOrderId())
+                    .status(paymentResponse.getStatus())
+                    .totalAmount(paymentResponse.getTotalAmount())
+                    .approvedAt(DateTimeUtil.parseToLocalDateTime(paymentResponse.getApprovedAt()))
+                    .receiptUrl(paymentResponse.getReceiptUrl())
+                    .method(paymentResponse.getMethod())
+                    .failure(paymentResponse.getFailure())
+                    .build();
 
         } catch (WebClientResponseException ex) {
             // 에러 응답 JSON 파싱
